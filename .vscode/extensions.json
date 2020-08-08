@@ -1,0 +1,23 @@
+{
+    "recommendations": [
+      "ms-dotnettools.csharp",      //  C#
+      "jchannon.csharpextensions",  //  C# Extensions
+      "formulahendry.code-runner",  //  Code Runner
+      "quicktype.quicktype",
+      "Leopotam.csharpfixformat", 
+      "k--kato.docomment",
+      //HTML
+      "ecmel.vscode-html-css", // HTML CSS Support
+      "tht13.html-preview-vscode", // HTML Preview
+      "abusaidm.html-snippets", // HTML Snippets
+      "zignd.html-css-class-completion", // IntelliSense for CSS class names in HTML
+      "mkaufman.HTMLHint",
+
+      "hookyqr.beautify",           //  https://marketplace.visualstudio.com/items?itemName=HookyQR.beautify
+    ]
+  }
+
+
+// Windows %USERPROFILE%\.vscode\extensions
+// macOS ~/.vscode/extensions
+// Linux ~/.vscode/extensions
