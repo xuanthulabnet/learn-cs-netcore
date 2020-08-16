@@ -9,7 +9,10 @@ namespace CS017_GenericCollect {
     class Program {
 
         static void Main (string[] args) {
-            TestMethoGeneric.TestSwap ();
+            // TestMethoGeneric.TestSwap ();
+
+            MyClass<double> myClass = new MyClass<double>(123.123);
+            myClass.TestMethod(123);
 
         }
     }
