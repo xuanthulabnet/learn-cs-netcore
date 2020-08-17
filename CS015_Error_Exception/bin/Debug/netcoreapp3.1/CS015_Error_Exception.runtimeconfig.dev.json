@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "/Users/xuanthulab/.dotnet/store/|arch|/|tfm|",
+      "/Users/xuanthulab/.nuget/packages"
+    ]
+  }
+}

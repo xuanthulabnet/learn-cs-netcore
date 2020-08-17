@@ -1,0 +1,12 @@
+/Users/xuanthulab/Desktop/learn-cs-netcore/CS015_Error_Exception/bin/Debug/netcoreapp3.1/CS015_Error_Exception.deps.json
+/Users/xuanthulab/Desktop/learn-cs-netcore/CS015_Error_Exception/bin/Debug/netcoreapp3.1/CS015_Error_Exception.runtimeconfig.json
+/Users/xuanthulab/Desktop/learn-cs-netcore/CS015_Error_Exception/bin/Debug/netcoreapp3.1/CS015_Error_Exception.runtimeconfig.dev.json
+/Users/xuanthulab/Desktop/learn-cs-netcore/CS015_Error_Exception/bin/Debug/netcoreapp3.1/CS015_Error_Exception.dll
+/Users/xuanthulab/Desktop/learn-cs-netcore/CS015_Error_Exception/bin/Debug/netcoreapp3.1/CS015_Error_Exception.pdb
+/Users/xuanthulab/Desktop/learn-cs-netcore/CS015_Error_Exception/obj/Debug/netcoreapp3.1/CS015_Error_Exception.csprojAssemblyReference.cache
+/Users/xuanthulab/Desktop/learn-cs-netcore/CS015_Error_Exception/obj/Debug/netcoreapp3.1/CS015_Error_Exception.AssemblyInfoInputs.cache
+/Users/xuanthulab/Desktop/learn-cs-netcore/CS015_Error_Exception/obj/Debug/netcoreapp3.1/CS015_Error_Exception.AssemblyInfo.cs
+/Users/xuanthulab/Desktop/learn-cs-netcore/CS015_Error_Exception/obj/Debug/netcoreapp3.1/CS015_Error_Exception.csproj.CoreCompileInputs.cache
+/Users/xuanthulab/Desktop/learn-cs-netcore/CS015_Error_Exception/obj/Debug/netcoreapp3.1/CS015_Error_Exception.dll
+/Users/xuanthulab/Desktop/learn-cs-netcore/CS015_Error_Exception/obj/Debug/netcoreapp3.1/CS015_Error_Exception.pdb
+/Users/xuanthulab/Desktop/learn-cs-netcore/CS015_Error_Exception/obj/Debug/netcoreapp3.1/CS015_Error_Exception.genruntimeconfig.cache
