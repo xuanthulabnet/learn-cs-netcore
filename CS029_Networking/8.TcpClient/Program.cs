@@ -34,17 +34,20 @@ namespace TCP
         // Kết nối đến server Tpc bằng TcpClient, đọc nội dung trả về
         public static  async Task ReadHtmlAsync(string url) {
 
-            using (var client = new TcpClient()) 
+            Uri uri = new Uri(url);
+             
+
+            using (var client = new TcpClient(uri.Host, 443)) 
             {
                 Console.WriteLine($"Start get {url}");
-                Uri uri = new Uri(url);
 
-                var hostAdress = await Dns.GetHostAddressesAsync(uri.Host);
-                IPAddress ipaddrress = hostAdress[0];
-                Console.WriteLine($"Host: {uri.Host}, IP: {ipaddrress}:{uri.Port}"); 
-                await client.ConnectAsync(ipaddrress.MapToIPv4(), uri.Port);
-                Console.WriteLine("Connected");
-                Console.WriteLine();
+                // var hostAdress = await Dns.GetHostAddressesAsync(uri.Host);
+                // IPAddress ipaddrress = hostAdress[0];
+            
+                // Console.WriteLine($"Host: {uri.Host}, IP: {ipaddrress}:{uri.Port}"); 
+                // await client.ConnectAsync(ipaddrress.MapToIPv4(), uri.Port);
+                // Console.WriteLine("Connected");
+                // Console.WriteLine();
 
  
                 Stream stream;
@@ -67,9 +70,12 @@ namespace TCP
                 // Xem: /psr-7-chuan-giao-dien-thong-diep-http.html#HTTPRequest
                 StringBuilder header = new StringBuilder();
                 header.Append($"GET {uri.PathAndQuery} HTTP/1.1\r\n");
-                // header.Append($"GET {uri.PathAndQuery} HTTP/2\r\n");
+                header.Append($"User-agent:Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)\r\n");
                 header.Append($"Host: {uri.Host}\r\n");
+
                 header.Append($"\r\n");
+                                header.Append($"\r\n");
+
 
                 Console.WriteLine("Request:");
                 Console.WriteLine(header); 
@@ -88,6 +94,7 @@ namespace TCP
                 do
                 {
                     bytes = await stream.ReadAsync(buffer, 0, buffer.Length);
+                    
 
                     // Lưu dữ liệu tải về vào ms
                     ms.Write(buffer, 0, bytes); 
@@ -108,7 +115,7 @@ namespace TCP
         }
         static async Task  Main(string[] args)
         {
-            string url = "https://google.com.vn";
+            string url = "https://www.google.com.vn";
             await ReadHtmlAsync(url);
         }
 
