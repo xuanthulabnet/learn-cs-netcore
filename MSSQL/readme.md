@@ -1,14 +1,25 @@
 ## Cài đặt MS SQL Server trên Docker
+Tải về mã nguồn tại
+https://github.com/xuanthulabnet/learn-cs-netcore/releases/tag/exsqldocker, giải nén.
+
+Từ dòng lệnh vào thư mục MSSQL tải về, gõ lệnh 
+sau để tạo và chạy container MS SQL Server (2017)
+
 ```
 docker-compose up -d
 ```
-container name: sqlserver-xtlab
 
-port: 1433
+MS SQL Server chạy với thông tin:
 
-user: sa
+- container name: sqlserver-xtlab
 
-password: Password123
+- port: 1433
+
+- user: sa
+
+- password: Password123
+- Địa chỉ Server kết nối là địa chỉ IP máy host:
+```127.0.0.1``` hoặc ```localhost```
 
 ## Phục hồi dữ liệu mẫu
 ```
