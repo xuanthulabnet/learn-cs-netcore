@@ -1,0 +1,2 @@
+# (EF Core) Tạo Model trong Entity Framework ánh xạ các đối tượng vào Database C# CSharp
+https://xuanthulab.nets/ef-core-tao-model-trong-entity-framework-anh-xa-cac-doi-tuong-vao-database-c-csharp.html#rl
