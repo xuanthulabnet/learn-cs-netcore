@@ -1,0 +1,39 @@
+{
+  "name": "04.ServiceCollection",
+  "version": "1.0.0",
+  "description": "https://xuanthulab.net/asp-net-core-dang-ky-dich-vu-vao-iservicecollection-va-inject-cac-dich-vu-c-csharp.html",
+  "main": "index.js",
+  "watch": {
+    "build": "src/scss/site.scss"
+  },
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "npm-watch"
+
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {
+    "bootstrap": "^4.5.2",
+    "copy-webpack-plugin": "^6.0.3",
+    "cross-env": "^7.0.2",
+    "css-loader": "^4.2.2",
+    "cssnano": "^4.1.10",
+    "file-loader": "^6.0.0",
+    "jquery": "^3.5.1",
+    "mini-css-extract-plugin": "^0.11.0",
+    "node-sass": "^4.14.1",
+    "npm-watch": "^0.7.0",
+    "popper.js": "^1.16.1",
+    "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^6.7.0",
+    "sass-loader": "^10.0.1"
+  }
+}
