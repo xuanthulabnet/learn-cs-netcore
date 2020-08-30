@@ -1,0 +1,24 @@
+﻿@model List<string>
+    
+@{
+    Layout = null;      
+}
+<!doctype html>
+<html>
+    <head>
+        <title>Trang View đầu tiên</title>
+    </head>
+    <body>
+        <p>View .CSHTML là template <strong>Razor</strong> - nó chứa code C# bắt đầu bởi @@</p>
+        <p><i>@DateTime.Now.ToLongDateString() xuanthulab.net</i></p>
+        <p>@ViewBag.dulieu1</p>
+        <p>@ViewBag.dulieu2</p>
+
+        <ol>
+            @foreach (var sp in Model) {
+                <li>@sp</li>
+            }
+        </ol>
+
+    </body>
+</html>
