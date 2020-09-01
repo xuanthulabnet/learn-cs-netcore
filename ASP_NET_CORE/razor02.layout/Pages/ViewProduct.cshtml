@@ -1,0 +1,17 @@
+@page
+
+@{
+   Layout = "Theme/Product/_SubLayout";
+   var product = new {
+     name = "Iphone",
+     des = "Điện thoại Iphone jfldsj fdskljfdskfd",
+     price = "100"
+   };
+
+
+   ViewData["title"] = "Xem sản phẩm " + product.name;
+}
+
+<h3>@product.name</h3>
+<div>@product.des</div>
+<div>Giá: @product.price</div>

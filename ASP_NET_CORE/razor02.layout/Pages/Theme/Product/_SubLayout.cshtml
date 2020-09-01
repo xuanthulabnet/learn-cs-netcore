@@ -1,0 +1,13 @@
+@{
+   Layout = "Theme/Product/_MasterLayout";
+}
+
+<h2>Thông tin sản phẩm</h2>
+<div class="card bg-warning m-4">
+    @if (@ViewData["TenSanPham"] != null) {
+        <h3 class="card-header">@ViewData["TenSanPham"]</h3>
+    }
+    <div class="card-body">
+       @RenderBody()
+    </div>
+</div>
