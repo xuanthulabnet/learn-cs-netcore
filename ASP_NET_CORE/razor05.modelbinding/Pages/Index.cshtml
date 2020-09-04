@@ -1,0 +1,35 @@
+﻿@page "/order/{productid:int?}/"
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<form method="POST">
+    <input type="text" name="username" placeholder="Nhập tên" value="@Model.UserId" />
+    <input type="email" name="email" placeholder="Nhập email" value="@Model.Email" />
+    <button class="btn btn-danger" type="submit">Gửi</button>
+</form>
+
+<div class="card bg-success">
+    <div class="card-body text-white">
+        <p>Dữ liệu trong Model:</p>
+        <ul>
+            <li>ProductID: @Model.ProductID</li>
+            <li>UserName: @Model.UserId</li>
+            <li>Email: @Model.Email</li>
+            <li>Color: @Model.Color</li>
+        </ul>
+    </div>
+</div>
+@if(Model.customer != null) {
+    <div class="card bg-success">
+        <div class="card-body text-white">
+            <p>Dữ liệu customer:</p>
+            <ul>
+                <li>CustomerID: @Model.customer.CustomerID</li>
+                <li>UserName: @Model.customer.UserName</li>
+                <li>Email: @Model.customer.Email</li>
+            </ul>
+        </div>
+    </div>
+}
