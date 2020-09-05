@@ -1,0 +1,45 @@
+  @page
+  @model FormModel
+   @{
+     var customerinfo = Model.customerInfo;
+
+     if (customerinfo != null)
+     {
+
+        <h3>@Model.Mesage</h3>
+        <div asp-validation-summary="All"></div>
+        if (ModelState.IsValid) {
+            <div class="card">
+                <div class="card-body">
+                    <p><strong>Tên: </strong> @customerinfo.Customername</p>
+                    <p><strong>Email: </strong> @customerinfo.Email</p>
+                    <p><strong>Năm sinh: </strong> @customerinfo.YearOfBirth</p>
+                </div>
+            </div>
+        }
+
+     }
+ }  
+
+
+  <h2 class="display-4">Nhập thông tin</h2>
+  <form method="post" class="m-2 p-3 bg-light">
+      <div class="form-group">
+          <label asp-for="@customerinfo.Customername"></label>
+          <input class="form-control" asp-for="@customerinfo.Customername" />
+          <span asp-validation-for="@customerinfo.Customername" class="text-danger"></span>  
+      </div>
+      <div class="form-group">
+          <label asp-for="@customerinfo.Email"></label>
+          <input class="form-control" asp-for="@customerinfo.Email" />
+          <span asp-validation-for="@customerinfo.Email" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+          <label asp-for="@customerinfo.YearOfBirth"></label>
+          <input class="form-control" asp-for="@customerinfo.YearOfBirth" />
+          <span asp-validation-for="@customerinfo.YearOfBirth" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+          <button class="btn btn-danger" asp-page="Form">Gửi thông tin</button>
+      </div>
+  </form>
