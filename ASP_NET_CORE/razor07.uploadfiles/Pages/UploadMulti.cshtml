@@ -1,0 +1,10 @@
+@page 
+@model UploadMultiModel
+<form method="post" enctype="multipart/form-data">
+    <label asp-for="@Model.FileUploads"></label>
+    <input asp-for="@Model.FileUploads" />
+    <span asp-validation-formaction="@Model.FileUploads"></span>
+
+    <button class="btn btn-danger" asp-page="UploadMulti">Upload</button>
+</form>
+
