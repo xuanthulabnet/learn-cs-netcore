@@ -1,0 +1,45 @@
+@page "/sua-bai-viet/{id:int}/"
+@model razor08.efcore.Pages.Blog.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Article</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Article.ID" />
+            <div class="form-group">
+                <label asp-for="Article.Title" class="control-label"></label>
+                <input asp-for="Article.Title" class="form-control" />
+                <span asp-validation-for="Article.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Article.PublishDate" class="control-label"></label>
+                <input asp-for="Article.PublishDate" class="form-control" />
+                <span asp-validation-for="Article.PublishDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Article.Content" class="control-label"></label>
+                <input asp-for="Article.Content" class="form-control" />
+                <span asp-validation-for="Article.Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
