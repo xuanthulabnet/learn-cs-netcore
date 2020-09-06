@@ -1,0 +1,49 @@
+@page "/blogs"
+@model razor08.efcore.Pages.Blog.IndexModel
+
+@{
+    ViewData["Title"] = "Danh sách bài viết";
+}
+
+<h1>Danh sách bài viết</h1>
+
+<p>
+    <a asp-page="Create">Tạo mới</a>
+</p>
+<form method="get" asp-page="./Index">
+    <p>
+        Title: <input type="text" asp-for="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Article[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Article[0].PublishDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Article) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PublishDate)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ID">Sửa</a> |
+                <a asp-page="./Details" asp-route-id="@item.ID">Xem</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ID">Xóa</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
