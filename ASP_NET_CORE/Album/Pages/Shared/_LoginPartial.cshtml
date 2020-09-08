@@ -1,0 +1,22 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+@if (SignInManager.IsSignedIn(User))
+{
+        <ul class="navbar-nav navbar-right">
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#">Hello @UserManager.GetUserName(User)!</a>
+            </li>
+             
+            <li class="nav-item">
+                <a class="nav-link text-danger" asp-page="/User/SignIn" asp-page-handler="SignOut">Đăng xuất</a>
+            </li>
+        </ul>
+}
+else
+{
+    <ul class="navbar-nav navbar-right">
+        <li class="nav-item"><a class="nav-link text-dark" asp-page="/User/Register">Đăng ký</a></li>
+        <li class="nav-item"><a class="nav-link text-dark" asp-page="/User/SignIn">Đăng nhập</a></li>
+    </ul>
+}
