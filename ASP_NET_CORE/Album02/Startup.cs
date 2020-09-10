@@ -41,8 +41,9 @@ namespace Album {
 
             services.Configure<RouteOptions> (options => {
                 options.LowercaseUrls = true;               // Url viết chữ thường
-                options.LowercaseQueryStrings = true;       // Query trong Url viết chữ thường
+                // options.LowercaseQueryStrings = true;       // Query trong Url viết chữ thường
             });
+
 
 
             // Truy cập IdentityOptions
@@ -68,6 +69,7 @@ namespace Album {
 
                 options.SignIn.RequireConfirmedEmail = true;
                 
+                
             });
 
             services.ConfigureApplicationCookie (options => {
@@ -79,6 +81,13 @@ namespace Album {
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
+
+
+            services.AddOptions ();                                         // Kích hoạt Options
+            var mailsettings = Configuration.GetSection ("MailSettings");   // đọc config
+            services.Configure<MailSettings> (mailsettings);                // đăng ký để Inject
+            
+            services.AddTransient<ISendMailService, SendMailService>();
 
         }
 

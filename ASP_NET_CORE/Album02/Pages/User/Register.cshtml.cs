@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using Album.Models;
+using XTLASPNET;
 
 namespace MyApp.Namespace
 {
@@ -17,6 +18,8 @@ namespace MyApp.Namespace
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ILogger<RegisterModel> _logger;
 
+        private readonly ISendMailService _sendMail;
+
         // Model chứa thông tin để đăng ký
         [BindProperty(SupportsGet=true)]
         public RegisterUserModel registerUserModel {set; get;}      
@@ -24,26 +27,34 @@ namespace MyApp.Namespace
         // Các dịch vụ Inject vào PageModel bằng phương thức khởi tạo
         public RegisterModel(SignInManager<AppUser> signInManager,
             UserManager<AppUser> userManager,
-            ILogger<RegisterModel>  logger )
+            ILogger<RegisterModel>  logger, ISendMailService sendMail)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
+            _sendMail = sendMail;
         }
 
         public IActionResult OnGet()
         {
-            // Test:
-            //  _signInManager.SignInAsync(new AppUser() {UserName = "xuanthulab"}, true).Wait();
-            if (_signInManager.IsSignedIn(User)) {
-                _logger.LogInformation("Đã đăng nhập username = " +  _userManager.GetUserName(User));
-                return RedirectToPage("Index");
-            }
-            ModelState.Clear();
+            
+
+            if (_signInManager.IsSignedIn (User))
+                return ViewComponent(MessagePage.COMPONENTNAME,
+                    new MessagePage.Message() {
+                        title = "Đã đăng nhập",
+                        htmlcontent = "Tài khoản " + _userManager.GetUserName(User) + " đã đăng nhập",
+                        urlredirect = Url.Page("Index")
+
+                    }
+                );
+
             return Page();
         }
 
         public async Task<IActionResult> OnPost() {
+
+
 
             if (ModelState.IsValid)
             {
@@ -53,12 +64,30 @@ namespace MyApp.Namespace
                 var result = await _userManager.CreateAsync(user, registerUserModel.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("Đã tạo user mới");
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     
-                    _logger.LogInformation("Đăng nhập: " + _signInManager.IsSignedIn(User).ToString());
-                    // Chuyển hướng về trang User/Index sau khi đăng ký, đăng nhập
-                    return RedirectToPage("Index");
+                    // Tạo Url xác nhận email và gửi mail kích hoạt
+                    // https://localhost:5001/user/sign/confirmemail?userid=userid&code=code
+                    var url  = Url.Page("/User/SignIn", "ConfirmEmail", new {userid = user.Id, code = code}, 
+                                         Request.Scheme);
+                    await _sendMail.SendMail(
+                        new MailContent() {
+                            To = user.Email,
+                            Subject = "Kích hoạt tài khoản",
+                            Body = @$"Bạn cần bấm vào để <a href=""{url}"">Kích hoạt tài khoản</a>"
+                        }
+                    );
+
+                    _logger.LogInformation("Đã tạo user mới");
+
+                    // Thông báo và chuyển hướng về trang đăng nhập
+                    return ViewComponent(MessagePage.COMPONENTNAME, new MessagePage.Message() {
+                        title = "Tạo tài khoản thành công",
+                        htmlcontent = "Một email đã gửi cho bạn, hãy mở email làm theo hướng dẫn để kích hoạt",
+                        urlredirect = Url.Page("/User/SignIn")
+                    });
+
                 }
                 else {
                     // Có lỗi tạo User, thông báo lỗi đưa vào ModelState để hiện thị
@@ -72,5 +101,7 @@ namespace MyApp.Namespace
             return Page();
 
         }
+
+
     }
 }

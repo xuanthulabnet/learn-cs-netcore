@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using XTLASPNET;
 
 namespace MyApp.Namespace {
     public class SignInModel : PageModel {
@@ -41,7 +42,14 @@ namespace MyApp.Namespace {
                 _logger.LogInformation (User.Identity.Name + " sign out");
                 await _signInManager.SignOutAsync ();
             }
-            return RedirectToPage ("Index");
+            
+            return ViewComponent(MessagePage.COMPONENTNAME,
+                new MessagePage.Message() {
+                    title = "Đã đăng xuất",
+                    htmlcontent = "Tài khoản đã đăng xuất khỏi hệ thống",
+                    urlredirect = Url.Page("Index")
+                }
+            );
 
         }
         // Đăng nhập theo thông tin Post đến
@@ -76,12 +84,23 @@ namespace MyApp.Namespace {
                 );
  
                 // Đăng nhập thành công
-                if (rs.Succeeded) return RedirectToPage ("Index");
+                if (rs.Succeeded) 
+                    return ViewComponent(MessagePage.COMPONENTNAME, 
+                        new MessagePage.Message() {
+                            title = "Đăng nhập thành công",
+                            htmlcontent = $"Xin chào, {user.UserName}",
+                            urlredirect = Url.Page("Index")
+                        }
+                    ); 
+
 
                 // Đăng nhật thất bại, thiết lập một thông báo lỗi
                 if (rs.IsLockedOut) {
                     int attempt =  _signInManager.Options.Lockout.MaxFailedAccessAttempts;
-                    ModelState.AddModelError(string.Empty, $"Tài khoản bị khóa thất bại trên {attempt} thất bại");
+                    return ViewComponent(MessagePage.COMPONENTNAME, new MessagePage.Message() {
+                        title = "TẠM KHÓA",
+                        htmlcontent = $"Tài khoản bị khóa {attempt} đăng nhập thất bại"
+                    });
 
                 } 
                 else if (rs.IsNotAllowed) {
@@ -93,6 +112,38 @@ namespace MyApp.Namespace {
 
             }
             return Page ();
+        }
+
+
+        public async Task<IActionResult> OnGetConfirmEmail(string userid, string code) {
+            
+            var user = (userid == null) ? null : await _userManager.FindByIdAsync(userid);
+            if (user == null || code == null)
+            {
+                return ViewComponent(MessagePage.COMPONENTNAME, new MessagePage.Message() {
+                    htmlcontent = "Lỗi, không có dữ liệu"
+                });
+            }
+            Console.WriteLine(code);
+            // Cập nhật vào Db user đã được xác nhận email
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            string thongbao = "Đã xác nhận email thành công";
+            if (!result.Succeeded)
+            {
+                thongbao = "Không xác nhận được email";
+                foreach (var err in result.Errors)
+                {
+                    thongbao += err.Description;
+                }
+            }
+
+            return ViewComponent(MessagePage.COMPONENTNAME, new MessagePage.Message() {
+                title = "Xác nhận email",
+                htmlcontent = thongbao,
+                urlredirect = Url.Page("Index"),
+                secondwait = 10
+            });
+
         }
     }
 }
