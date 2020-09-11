@@ -26,8 +26,8 @@
                         </li>
                     </ul>
                 </div>
+                @await Html.PartialAsync("_LoginPartial")
             </div>
-            @await Html.PartialAsync("_LoginPartial")
         </nav>
     </header>
     <div class="container">
@@ -35,6 +35,7 @@
             @RenderBody()
         </main>
     </div>
+    
 
     <footer class="border-top footer text-muted">
         <div class="container">

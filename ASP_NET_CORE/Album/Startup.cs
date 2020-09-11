@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Album.Data;
+using Album.Mail;
 using Album.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +19,6 @@ using Microsoft.Extensions.Hosting;
 namespace Album {
     public class Startup {
         public Startup (IConfiguration configuration) {
-
             Configuration = configuration;
         }
 
@@ -25,58 +26,61 @@ namespace Album {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services) {
-            services.AddRazorPages ();
 
-            // Đăng ký AppDbContext    
+            services.AddOptions ();                                        // Kích hoạt Options
+            var mailsettings = Configuration.GetSection ("MailSettings");  // đọc config
+            services.Configure<MailSettings> (mailsettings);               // đăng ký để Inject
+
+            services.AddTransient<IEmailSender, SendMailService>();        // Đăng ký dịch vụ Mail
+
+
+            // Đăng ký AppDbContext
             services.AddDbContext<AppDbContext> (options => {
                 // Đọc chuỗi kết nối
-                string connectstring = Configuration.GetConnectionString ("ArticleContext");
+                string connectstring = Configuration.GetConnectionString ("AppDbContext");
                 // Sử dụng MS SQL Server
                 options.UseSqlServer (connectstring);
             });
 
+            // Đăng ký Identity
             services.AddIdentity<AppUser, IdentityRole> ()
                 .AddEntityFrameworkStores<AppDbContext> ()
                 .AddDefaultTokenProviders ();
 
-            services.Configure<RouteOptions> (options => {
-                options.LowercaseUrls = true;               // Url viết chữ thường
-                options.LowercaseQueryStrings = true;       // Query trong Url viết chữ thường
-            });
-
-
             // Truy cập IdentityOptions
             services.Configure<IdentityOptions> (options => {
                 // Thiết lập về Password
-                options.Password.RequireDigit = false;           // Không bắt phải có số
-                options.Password.RequireLowercase = false;       // Không bắt phải có chữ thường
+                options.Password.RequireDigit = false; // Không bắt phải có số
+                options.Password.RequireLowercase = false; // Không bắt phải có chữ thường
                 options.Password.RequireNonAlphanumeric = false; // Không bắt ký tự đặc biệt
-                options.Password.RequireUppercase = false;       // Không bắt buộc chữ in   
-                options.Password.RequiredLength = 3;             // Số ký tự tối thiểu của password
-                options.Password.RequiredUniqueChars = 1;        // Số ký tự riêng biệt
+                options.Password.RequireUppercase = false; // Không bắt buộc chữ in
+                options.Password.RequiredLength = 3; // Số ký tự tối thiểu của password
+                options.Password.RequiredUniqueChars = 1; // Số ký tự riêng biệt
 
                 // Cấu hình Lockout - khóa user
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes (1); // Khóa 1 phút
-                options.Lockout.MaxFailedAccessAttempts = 5;                       // Thất bại 5 lầ thì khóa
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes (5); // Khóa 5 phút
+                options.Lockout.MaxFailedAccessAttempts = 50; // Thất bại 5 lầ thì khóa
                 options.Lockout.AllowedForNewUsers = true;
-        
 
-                // User settings.
-                options.User.AllowedUserNameCharacters =  // các ký tự đặt tên user
+                // Cấu hình về User.
+                options.User.AllowedUserNameCharacters = // các ký tự đặt tên user
                     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                options.User.RequireUniqueEmail = false;  // Email là duy nhất
-                
+                options.User.RequireUniqueEmail = true; // Email là duy nhất
+
+                // Cấu hình đăng nhập.
+                options.SignIn.RequireConfirmedEmail = true; // Cấu hình xác thực địa chỉ email (email phải tồn tại)
+                options.SignIn.RequireConfirmedPhoneNumber = false; // Xác thực số điện thoại
+
+            });
+            
+            services.Configure<RouteOptions> (options => {
+                options.LowercaseUrls = true;                   // url chữ thường
+                options.LowercaseQueryStrings = false;          // không bắt query trong url phải in thường
             });
 
-            services.ConfigureApplicationCookie (options => {
-                // Cookie settings
-                options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes (5);
+            services.AddRazorPages ();
 
-                options.LoginPath = "/Identity/Account/Login";
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-                options.SlidingExpiration = true;
-            });
+
 
         }
 
@@ -95,8 +99,8 @@ namespace Album {
 
             app.UseRouting ();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+            app.UseAuthentication (); // Phục hồi thông tin đăng nhập (xác thực)
+            app.UseAuthorization (); // Phục hồi thông tinn về quyền của User
 
             app.UseEndpoints (endpoints => {
                 endpoints.MapRazorPages ();

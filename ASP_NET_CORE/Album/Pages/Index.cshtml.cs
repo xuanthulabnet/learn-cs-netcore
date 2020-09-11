@@ -12,16 +12,21 @@ namespace Album.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
+        private readonly AppDbContext _dbContext;
 
-        public IndexModel(ILogger<IndexModel> logger, AppDbContext appDb)
+        public IndexModel(ILogger<IndexModel> logger, AppDbContext dbcontext)
         {
             _logger = logger;
-            // appDb.Database.EnsureDeleted();
+            _dbContext = dbcontext;
         }
 
         public void OnGet()
         {
 
+        }
+        public void OnGetDeleteDb() {
+            _logger.LogInformation("Xóa DB");
+            _dbContext.Database.EnsureDeleted();
         }
     }
 }
