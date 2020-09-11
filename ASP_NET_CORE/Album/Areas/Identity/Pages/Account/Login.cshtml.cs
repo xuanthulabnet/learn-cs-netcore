@@ -75,27 +75,24 @@ namespace Album.Areas.Identity.Pages.Account {
             if (_signInManager.IsSignedIn (User)) return Redirect ("Index");
 
             if (ModelState.IsValid) {
-                // Thử login bằng username/password
-                var result = await _signInManager.PasswordSignInAsync (
-                    Input.UserNameOrEmail,
-                    Input.Password,
-                    Input.RememberMe,
-                    true
-                );
+    
+                IdentityUser user = await _userManager.FindByEmailAsync (Input.UserNameOrEmail);
+                if (user == null) 
+                    user = await _userManager.FindByNameAsync(Input.UserNameOrEmail);
 
-                if (!result.Succeeded) {
-                    // Thất bại username/password -> tìm user theo email, nếu thấy thì thử đăng nhập
-                    // bằng user tìm được
-                    var user = await _userManager.FindByEmailAsync (Input.UserNameOrEmail);
-                    if (user != null) {
-                        result = await _signInManager.PasswordSignInAsync (
-                            user,
-                            Input.Password,
-                            Input.RememberMe,
-                            true
-                        );
-                    }
-                }
+                if (user == null) 
+                {
+                    ModelState.AddModelError (string.Empty, "Tài khoản không tồn tại.");
+                    return Page ();
+                }   
+
+                var result = await _signInManager.PasswordSignInAsync (
+                        user.UserName,
+                        Input.Password,
+                        Input.RememberMe,
+                        true
+                    );
+
 
                 if (result.Succeeded) {
                     _logger.LogInformation ("User đã đăng nhập");
@@ -119,7 +116,6 @@ namespace Album.Areas.Identity.Pages.Account {
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return Page ();
         }
     }

@@ -33,13 +33,14 @@ namespace Album.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "{0} dài {2} đến {1} ký tự.", MinimumLength = 6)]
             [DataType(DataType.Password)]
+            [Display(Name = "Mật khẩu")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Nhập lại mật khẩu")]
+            [Compare("Password", ErrorMessage = "Password phải giống nhau.")]
             public string ConfirmPassword { get; set; }
 
             public string Code { get; set; }
@@ -49,12 +50,14 @@ namespace Album.Areas.Identity.Pages.Account
         {
             if (code == null)
             {
-                return BadRequest("A code must be supplied for password reset.");
+                return BadRequest("Mã token không có.");
             }
             else
             {
                 Input = new InputModel
                 {
+                    // Giải mã lại code từ code trong url (do mã này khi gửi mail 
+                    // đã thực hiện Encode bằng WebEncoders.Base64UrlEncode)
                     Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code))
                 };
                 return Page();
@@ -68,16 +71,19 @@ namespace Album.Areas.Identity.Pages.Account
                 return Page();
             }
 
+            // Tìm User theo email
             var user = await _userManager.FindByEmailAsync(Input.Email);
             if (user == null)
             {
-                // Don't reveal that the user does not exist
+                // Không thấy user
                 return RedirectToPage("./ResetPasswordConfirmation");
             }
-
+            // Đặt lại passowrd chu user - có kiểm tra mã token khi đổi
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
+            
             if (result.Succeeded)
             {
+                // Chuyển đến trang thông báo đã reset thành công
                 return RedirectToPage("./ResetPasswordConfirmation");
             }
 
