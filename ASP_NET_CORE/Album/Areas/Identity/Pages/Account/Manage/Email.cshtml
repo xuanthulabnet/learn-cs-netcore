@@ -1,7 +1,7 @@
 @page
 @model EmailModel
 @{
-    ViewData["Title"] = "Manage Email";
+    ViewData["Title"] = "QUẢN LÝ EMAIL";
     ViewData["ActivePage"] = ManageNavPages.Email;
 }
 
@@ -33,7 +33,7 @@
                 <input asp-for="Input.NewEmail" class="form-control" />
                 <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
             </div>
-            <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="btn btn-primary">Change email</button>
+            <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="btn btn-primary">Đổi Email</button>
         </form>
     </div>
 </div>

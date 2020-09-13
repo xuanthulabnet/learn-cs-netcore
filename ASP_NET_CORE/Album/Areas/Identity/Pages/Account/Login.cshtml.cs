@@ -115,8 +115,8 @@ namespace Album.Areas.Identity.Pages.Account {
                     return Page ();
                 }
             }
-
             return Page ();
+            
         }
     }
 }
