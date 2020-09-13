@@ -1,5 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
+using razor06.form.Binding;
 using razor06.form.Validations;
 
 public class CustomerInfo {
@@ -7,6 +9,7 @@ public class CustomerInfo {
     [Required(ErrorMessage="Phải có tên")]
     [StringLength(20, MinimumLength = 3, ErrorMessage="Chiều dài không chính xác")]
     [Display(Name = "TÊN KHÁCH")] // Label hiện thị
+    [ModelBinder(BinderType = typeof(MyCheckNameBinding))]
     public string Customername {set; get;}
 
     [Required]
