@@ -61,6 +61,14 @@ namespace Album {
                     // Cấu hình Url callback lại từ Google (không thiết lập thì mặc định là /signin-google)
                     googleOptions.CallbackPath = "/dang-nhap-tu-google";
                     
+                })
+                .AddFacebook(facebookOptions => {
+                    // Đọc cấu hình
+                    IConfigurationSection facebookAuthNSection = Configuration.GetSection("Authentication:Facebook");
+                    facebookOptions.AppId = facebookAuthNSection["AppId"];
+                    facebookOptions.AppSecret = facebookAuthNSection["AppSecret"];
+                    // Thiết lập đường dẫn Facebook chuyển hướng đến
+                    facebookOptions.CallbackPath = "/dang-nhap-tu-facebook";
                 });
                
 
