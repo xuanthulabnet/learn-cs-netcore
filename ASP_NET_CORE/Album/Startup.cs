@@ -27,12 +27,11 @@ namespace Album {
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services) {
 
-            services.AddOptions ();                                        // Kích hoạt Options
-            var mailsettings = Configuration.GetSection ("MailSettings");  // đọc config
-            services.Configure<MailSettings> (mailsettings);               // đăng ký để Inject
+            services.AddOptions (); // Kích hoạt Options
+            var mailsettings = Configuration.GetSection ("MailSettings"); // đọc config
+            services.Configure<MailSettings> (mailsettings); // đăng ký để Inject
 
-            services.AddTransient<IEmailSender, SendMailService>();        // Đăng ký dịch vụ Mail
-
+            services.AddTransient<IEmailSender, SendMailService> (); // Đăng ký dịch vụ Mail
 
             // Đăng ký AppDbContext
             services.AddDbContext<AppDbContext> (options => {
@@ -42,37 +41,31 @@ namespace Album {
                 options.UseSqlServer (connectstring);
             });
 
-
-
             // Đăng ký Identity
             services.AddIdentity<AppUser, IdentityRole> ()
                 .AddEntityFrameworkStores<AppDbContext> ()
                 .AddDefaultTokenProviders ();
 
-            services.AddAuthentication()
-                .AddGoogle(googleOptions =>
-                {
+            services.AddAuthentication ()
+                .AddGoogle (googleOptions => {
                     // Đọc thông tin Authentication:Google từ appsettings.json
-                    IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
+                    IConfigurationSection googleAuthNSection = Configuration.GetSection ("Authentication:Google");
 
                     // Thiết lập ClientID và ClientSecret để truy cập API google
                     googleOptions.ClientId = googleAuthNSection["ClientId"];
                     googleOptions.ClientSecret = googleAuthNSection["ClientSecret"];
                     // Cấu hình Url callback lại từ Google (không thiết lập thì mặc định là /signin-google)
                     googleOptions.CallbackPath = "/dang-nhap-tu-google";
-                    
+
                 })
-                .AddFacebook(facebookOptions => {
+                .AddFacebook (facebookOptions => {
                     // Đọc cấu hình
-                    IConfigurationSection facebookAuthNSection = Configuration.GetSection("Authentication:Facebook");
+                    IConfigurationSection facebookAuthNSection = Configuration.GetSection ("Authentication:Facebook");
                     facebookOptions.AppId = facebookAuthNSection["AppId"];
                     facebookOptions.AppSecret = facebookAuthNSection["AppSecret"];
                     // Thiết lập đường dẫn Facebook chuyển hướng đến
                     facebookOptions.CallbackPath = "/dang-nhap-tu-facebook";
                 });
-               
-
-     
 
             // Truy cập IdentityOptions
             services.Configure<IdentityOptions> (options => {
@@ -99,15 +92,19 @@ namespace Album {
                 options.SignIn.RequireConfirmedPhoneNumber = false; // Xác thực số điện thoại
 
             });
-            
+
             services.Configure<RouteOptions> (options => {
-                options.LowercaseUrls = true;                   // url chữ thường
-                options.LowercaseQueryStrings = false;          // không bắt query trong url phải in thường
+                options.LowercaseUrls = true; // url chữ thường
+                options.LowercaseQueryStrings = false; // không bắt query trong url phải in thường
+            });
+
+            services.ConfigureApplicationCookie (options => {
+                options.LoginPath = $"/login/";
+                options.LogoutPath = $"/logout/";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
             });
 
             services.AddRazorPages ();
-
-
 
         }
 

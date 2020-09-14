@@ -1,12 +1,11 @@
 @page
 @model IndexModel
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = "HỒ SƠ";
     ViewData["ActivePage"] = ManageNavPages.Index;
-    
 }
 
-<h4>@ViewData["Title"]@Layout</h4>
+<h4>@ViewData["Title"]</h4>
 <partial name="_StatusMessage" model="Model.StatusMessage" />
 <div class="row">
     <div class="col-md-6">
@@ -21,7 +20,24 @@
                 <input asp-for="Input.PhoneNumber" class="form-control" />
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
-            <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
+            <div class="form-group">
+                <label asp-for="Input.FullName"></label>
+                <input asp-for="Input.FullName" class="form-control" />
+                <span asp-validation-for="Input.FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Address"></label>
+                <input asp-for="Input.Address" class="form-control" />
+                <span asp-validation-for="Input.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Birthday"></label>
+                @Html.TextBoxFor(m => m.Input.Birthday, "{0:dd/MM/yyyy}", new {@class = "form-control"})
+                @* <input asp-for="Input.Birthday"  class="form-control" /> *@
+                <span asp-validation-for="Input.Birthday" class="text-danger"></span>
+            </div>
+
+            <button id="update-profile-button" type="submit" class="btn btn-danger">Lưu hồ sơ</button>
         </form>
     </div>
 </div>
