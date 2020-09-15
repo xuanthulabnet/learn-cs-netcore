@@ -1,0 +1,114 @@
+﻿@model dynamic
+@{
+    int currentPage  = Model.currentPage;
+    int countPages   = Model.countPages;
+    var generateUrl  = Model.generateUrl;
+    
+    if (currentPage > countPages)
+        currentPage = countPages;
+
+    if (countPages <= 1) return;
+    
+
+    int? preview = null;
+    int? next = null;
+
+    if (currentPage > 1)
+        preview = currentPage - 1;
+
+    if (currentPage < countPages)
+        next = currentPage + 1;
+
+    // Các trang hiện thị trong điều hướng
+    List<int> pagesRanges = new List<int>();    
+
+        
+    int delta       = 5;             // Số trang mở rộng về mỗi bên trang hiện tại     
+    int remain     = delta * 2;      // Số trang hai bên trang hiện tại
+    pagesRanges.Add(currentPage);
+    // Các trang phát triển về hai bên trang hiện tại
+    for (int i = 1; i <= delta; i++)
+    {
+        if (currentPage + i  <= countPages) {
+            pagesRanges.Add(currentPage + i); 
+            remain --;
+        }
+               
+        if (currentPage - i >= 1) {
+            pagesRanges.Insert(0, currentPage - i);
+            remain --;
+        }
+            
+    }    
+    // Xử lý thêm vào các trang cho đủ remain (xảy ra ở đầu mút của khoảng trang không đủ
+    // trang chèn  vào)
+    if (remain > 0) {
+        if (pagesRanges[0] == 1) {
+            for (int i = 1; i <= remain; i++)
+            {
+                if (pagesRanges.Last() + 1 <= countPages) {
+                    pagesRanges.Add(pagesRanges.Last() + 1);
+                }
+            }
+        }
+        else {
+            for (int i = 1; i <= remain; i++)
+            {
+                if (pagesRanges.First() - 1 > 1) {
+                    pagesRanges.Insert(0, pagesRanges.First() - 1);
+                }
+            }
+        }
+    }
+
+}
+
+
+<ul class="pagination">
+<!-- Previous page link -->
+@if (preview != null)
+{
+    <li class="page-item">
+        <a class="page-link" href="@generateUrl(preview)">Trang trước</a>
+    </li>
+}
+else
+{
+    <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Trang trước</a>
+    </li>
+}
+   
+<!-- Numbered page links -->
+@foreach (var pageitem in pagesRanges)
+{
+    if (pageitem != currentPage) {
+        <li class="page-item">
+            <a class="page-link" href="@generateUrl(pageitem)">
+                @pageitem
+            </a>
+        </li>
+    }   
+    else 
+    {
+        <li class="page-item active" aria-current="page">
+            <a class="page-link" href="#">@pageitem <span class="sr-only">(current)</span></a>
+        </li>
+    }
+}
+
+
+<!-- Next page link -->
+@if (next != null)
+{
+    <li class="page-item">
+        <a class="page-link" href="@generateUrl(next)">Trang sau</a>
+    </li>
+}
+else 
+{
+    <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Trang sau</a>
+    </li>
+}
+</ul>
