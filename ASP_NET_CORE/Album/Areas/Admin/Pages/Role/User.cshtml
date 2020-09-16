@@ -1,0 +1,49 @@
+﻿@page "/admin/role/users/"
+@model Album.Areas.Admin.Pages.Role.UserModel
+@{
+    ViewData["Title"] = "DANH SÁCH NGƯỜI DÙNG";
+}
+
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" model="@Model.StatusMessage" />
+
+<table class="table table-striped">
+    <tr>
+        <th>UserName</th>
+        <th>Roles</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var user in @Model.users)
+    {
+        <tr>
+            <td>@user.UserName</td>
+            <td>@user.listroles</td>
+            <td>
+                <form method="POST" class="d-inline">
+                <button name="Input.ID" value="@user.Id" class="btn btn-primary btn-sm" 
+                        asp-page="./AddUserRole">Cập nhật Role</button>
+                </form>
+            </td>
+        </tr>
+        
+    }
+</table>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+@{
+
+    Func<int?,string> generateUrl = (int? _pagenumber)  => {
+        return Url.Page("./User", new {pageNumber = _pagenumber});
+    };
+
+    var datapaging = new {
+        currentPage = Model.pageNumber,
+        countPages  = Model.totalPages,
+        generateUrl =  generateUrl
+    };
+
+}
+<partial name="_Paging" model="@datapaging" />

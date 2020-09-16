@@ -1,13 +1,25 @@
 using Album.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Album.Data {
     // Kế thừa từ IdentityDbContext nên có sẵn các DbSet
     // UserRoles Roles RoleClaimsUsers UserClaims UserLogins UserTokens
     public class AppDbContext : IdentityDbContext<AppUser> {
+        public static readonly ILoggerFactory loggerFactory = LoggerFactory.Create (builder => {
+            builder
+                // .AddFilter (DbLoggerCategory.Database.Command.Name, LogLevel.Warning)
+                // .AddFilter (DbLoggerCategory.Query.Name, LogLevel.Debug)
+                .AddConsole ();
+        });
 
         public AppDbContext (DbContextOptions<AppDbContext> options) : base (options) { }
+        protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder) {
+            base.OnConfiguring (optionsBuilder);
+            optionsBuilder
+                .UseLoggerFactory (loggerFactory);
+        }
 
         protected override void OnModelCreating (ModelBuilder builder) {
 
