@@ -16,10 +16,15 @@ namespace Album.Areas.Admin.Pages.Role {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
 
+        private readonly SignInManager<AppUser> _signManager;
+
+
         public UserModel (RoleManager<IdentityRole> roleManager,
-                          UserManager<AppUser> userManager) {
+                          UserManager<AppUser> userManager,
+                          SignInManager<AppUser> signManager) {
             _roleManager = roleManager;
             _userManager = userManager;
+            _signManager = signManager;
         }
 
         public class UserInList : AppUser {
@@ -39,10 +44,27 @@ namespace Album.Areas.Admin.Pages.Role {
         public IActionResult OnPost() => NotFound("Cấm post");
 
         public async Task<IActionResult> OnGet() {
-
-            var cuser = await _userManager.GetUserAsync(User);
-            await _userManager.AddToRolesAsync(cuser, new string[] { "Editor"});
         
+            var cuser = await _userManager.GetUserAsync(User);
+
+        //    await _userManager.AddClaimAsync(cuser, new  System.Security.Claims.Claim("X", "G"));
+           var roleeditor = await _roleManager.FindByNameAsync("Editor");
+        //    await _roleManager.AddClaimAsync(roleeditor, new System.Security.Claims.Claim("X", "Y"));
+        //    await _roleManager.AddClaimAsync(roleeditor, new System.Security.Claims.Claim("X", "Z"));
+
+            var cls = await _userManager.GetClaimsAsync(cuser);
+            foreach(var cl in cls) {
+                Console.WriteLine("User Claim" + cl.Type+ "       Value:" + cl.Value);
+            }
+
+            cls = await _roleManager.GetClaimsAsync(roleeditor);
+            foreach(var cl in cls) {
+                Console.WriteLine("Role Claim" + cl.Type+ "       Value:" + cl.Value);
+            }   
+            
+            
+
+
             if (pageNumber == 0) 
                 pageNumber = 1; 
 

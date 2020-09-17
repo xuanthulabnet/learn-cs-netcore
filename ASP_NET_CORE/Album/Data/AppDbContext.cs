@@ -17,8 +17,8 @@ namespace Album.Data {
         public AppDbContext (DbContextOptions<AppDbContext> options) : base (options) { }
         protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder) {
             base.OnConfiguring (optionsBuilder);
-            optionsBuilder
-                .UseLoggerFactory (loggerFactory);
+            // optionsBuilder
+            //     .UseLoggerFactory (loggerFactory);
         }
 
         protected override void OnModelCreating (ModelBuilder builder) {

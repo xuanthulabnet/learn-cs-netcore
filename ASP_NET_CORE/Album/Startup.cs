@@ -99,9 +99,18 @@ namespace Album {
             });
 
             services.ConfigureApplicationCookie (options => {
-                options.LoginPath = $"/login/";
+                // options.Cookie.HttpOnly = true;  
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);  
+                options.LoginPath = $"/login/"; 
                 options.LogoutPath = $"/logout/";
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
+
+            services.Configure<SecurityStampValidatorOptions>(options => 
+            {
+                // Trên 30 giây truy cập lại sẽ nạp lại thông tin User (Role)
+                // SecurityStamp trong bảng User đổi -> nạp lại thông tinn Security
+                options.ValidationInterval = TimeSpan.FromSeconds(30); 
             });
 
             services.AddRazorPages ();
