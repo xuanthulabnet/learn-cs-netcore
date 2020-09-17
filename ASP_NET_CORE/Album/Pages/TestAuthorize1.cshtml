@@ -1,0 +1,4 @@
+﻿@page "/test-authorize-1/"
+@inject Microsoft.AspNetCore.Identity.UserManager<Album.Models.AppUser> UserManager
+@model Album.Pages.TestAuthorize1Model
+<p class="alert alert-danger">@UserManager.GetUserName(User),  Bạn đang truy cập TestAuthorize1</p>
