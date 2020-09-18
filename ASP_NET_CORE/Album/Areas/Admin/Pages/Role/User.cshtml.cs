@@ -49,18 +49,18 @@ namespace Album.Areas.Admin.Pages.Role {
 
         //    await _userManager.AddClaimAsync(cuser, new  System.Security.Claims.Claim("X", "G"));
            var roleeditor = await _roleManager.FindByNameAsync("Editor");
-        //    await _roleManager.AddClaimAsync(roleeditor, new System.Security.Claims.Claim("X", "Y"));
+            // await _roleManager.AddClaimAsync(roleeditor, new System.Security.Claims.Claim("X", "Y"));
         //    await _roleManager.AddClaimAsync(roleeditor, new System.Security.Claims.Claim("X", "Z"));
 
-            var cls = await _userManager.GetClaimsAsync(cuser);
-            foreach(var cl in cls) {
-                Console.WriteLine("User Claim" + cl.Type+ "       Value:" + cl.Value);
-            }
+            // var cls = await _userManager.GetClaimsAsync(cuser);
+            // foreach(var cl in cls) {
+            //     Console.WriteLine("User Claim" + cl.Type+ "       Value:" + cl.Value);
+            // }
 
-            cls = await _roleManager.GetClaimsAsync(roleeditor);
-            foreach(var cl in cls) {
-                Console.WriteLine("Role Claim" + cl.Type+ "       Value:" + cl.Value);
-            }   
+            // cls = await _roleManager.GetClaimsAsync(roleeditor);
+            // foreach(var cl in cls) {
+            //     Console.WriteLine("Role Claim" + cl.Type+ "       Value:" + cl.Value);
+            // }   
             
             
 

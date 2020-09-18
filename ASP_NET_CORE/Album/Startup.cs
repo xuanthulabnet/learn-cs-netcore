@@ -110,10 +110,32 @@ namespace Album {
             {
                 // Trên 30 giây truy cập lại sẽ nạp lại thông tin User (Role)
                 // SecurityStamp trong bảng User đổi -> nạp lại thông tinn Security
-                options.ValidationInterval = TimeSpan.FromSeconds(30); 
+                options.ValidationInterval = TimeSpan.FromSeconds(5); 
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("CanViewTest", policy => {
+                    policy.RequireClaim("ViewTest3");
+                });
+                
+                options.AddPolicy("MyPolicy1", policy => {
+                    policy.RequireRole("Vip");
+                });
+
+                options.AddPolicy("CanViewTest", policy => {
+                    policy.RequireRole("VipMember","Editor");
+                });
+
+                options.AddPolicy("CanView", policy => {
+                    policy.RequireRole("VipMember","Editor");
+                });
+
+
             });
 
             services.AddRazorPages ();
+
 
         }
 

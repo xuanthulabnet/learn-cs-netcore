@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Album.Pages
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy="CanView")]
     public class TestAuthorize1Model : PageModel
     {
 
@@ -16,7 +16,7 @@ namespace Album.Pages
         {
         }
         public void OnGetAbc() {
-            
+
         }
     }
 }
