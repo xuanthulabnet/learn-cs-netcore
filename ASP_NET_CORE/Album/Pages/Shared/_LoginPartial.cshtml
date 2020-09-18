@@ -15,6 +15,8 @@
             <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Đăng xuất</button>
         </form>
     </li>
+    @await Html.PartialAsync("_AdminDropdownMenu.cshtml")
+
 }
 else
 {
