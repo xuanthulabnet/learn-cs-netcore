@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Album.Data;
+using Album.Identity;
 using Album.Mail;
 using Album.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -113,12 +115,19 @@ namespace Album {
                 options.ValidationInterval = TimeSpan.FromSeconds(5); 
             });
 
+
+
+
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("CanViewTest", policy => {
-                    policy.RequireClaim("ViewTest3");
+                options.AddPolicy("MinimumAge", policy => {
+                    policy.Requirements.Add(new MinimumAgeRequirement(18) {
+                        OpenTime = 8,
+                        CloseTime = 22
+                    });
                 });
                 
+
                 options.AddPolicy("MyPolicy1", policy => {
                     policy.RequireRole("Vip");
                 });
@@ -127,12 +136,17 @@ namespace Album {
                     policy.RequireRole("VipMember","Editor");
                 });
 
+                
                 options.AddPolicy("CanView", policy => {
-                    policy.RequireRole("VipMember","Editor");
+                    // policy.RequireRole("Editor");
+                    policy.RequireClaim("permision", "post.view");
                 });
 
 
             });
+            services.AddTransient<IAuthorizationHandler, MinimumAgeHandler>();
+
+
 
             services.AddRazorPages ();
 

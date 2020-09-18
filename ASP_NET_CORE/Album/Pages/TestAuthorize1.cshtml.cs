@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Album.Pages
 {
-    [Authorize(Policy="CanView")]
+    [Authorize(Policy="MinimumAge")]
     public class TestAuthorize1Model : PageModel
     {
 
