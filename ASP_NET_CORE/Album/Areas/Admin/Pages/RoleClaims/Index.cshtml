@@ -1,0 +1,46 @@
+﻿@page
+@model Album.Areas.Admin.Pages.RoleClaims.IndexModel
+
+@{
+    ViewData["Title"] = "Claim cho:" + Model.role.Name;
+}
+
+<h1>Role: @Model.role.Name</h1>
+
+<p>
+    <a asp-page="Create" asp-route-roleid="@Model.role.Id">Thêm Claim</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>
+                @Html.DisplayNameFor(model => model.claims[0].ClaimType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.claims[0].ClaimValue)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.claims) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClaimType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClaimValue)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-roleid="@Model.role.Id" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Delete" asp-route-roleid="@Model.role.Id" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<a asp-area="Admin" asp-page="/Role/Index">Danh sách ROLES</a>
