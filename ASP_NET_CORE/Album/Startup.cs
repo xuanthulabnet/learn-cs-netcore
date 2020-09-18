@@ -126,6 +126,10 @@ namespace Album {
                         CloseTime = 22
                     });
                 });
+
+                options.AddPolicy("AdminDropdown", policy => {
+                    policy.RequireClaim("permission", "manage.user");
+                });
                 
 
                 options.AddPolicy("MyPolicy1", policy => {
@@ -145,6 +149,7 @@ namespace Album {
 
             });
             services.AddTransient<IAuthorizationHandler, MinimumAgeHandler>();
+            services.AddTransient<IAuthorizationHandler, CanUpdatePostAgeHandler>();
 
 
 
