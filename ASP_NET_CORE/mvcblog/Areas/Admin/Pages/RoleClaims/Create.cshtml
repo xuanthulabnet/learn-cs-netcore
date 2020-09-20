@@ -1,0 +1,39 @@
+@page
+@model Album.Pages.Blog.CreateModel
+
+@{
+    ViewData["Title"] = "Tạo Claim";
+}
+
+<h1>Tạo Claim cho role @Model.role.Name</h1>
+
+<h4>Biện tập Claim</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="EditClaim.ClaimType" class="control-label"></label>
+                <input asp-for="EditClaim.ClaimType" class="form-control" />
+                <span asp-validation-for="EditClaim.ClaimType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EditClaim.ClaimValue" class="control-label"></label>
+                <input asp-for="EditClaim.ClaimValue" class="form-control" />
+                <span asp-validation-for="EditClaim.ClaimValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Tạo Claim" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index" asp-route-roleid="@Model.role.Id">Quay lại danh sách</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
