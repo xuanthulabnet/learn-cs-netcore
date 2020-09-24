@@ -1,0 +1,43 @@
+@page
+@model Album.Areas.Admin.Pages.Role.AddUserRole
+@{
+   ViewData["Title"] = "Cập nhật role cho User";
+}
+
+<h4>@ViewData["Title"]</h4>
+<div class="row">
+    <div class="col-md-6">
+        <p>Chọn các role gán cho <strong>@Model.Input.Name</strong></p>
+        <form method="post">
+            <partial name="_StatusMessage" model="@Model.StatusMessage" />
+            <div class="form-group">
+                @Html.LabelFor(x => x.Input.RoleNames)
+                @Html.ListBoxFor(x => x.Input.RoleNames,
+                    new SelectList( Model.AllRoles ),
+                    new {@class="w-100", id = "selectrole"})
+            </div>
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden"  asp-for="Input.ID">
+            <input type="hidden"  asp-for="isConfirmed">
+            <a class="btn btn-primary" asp-page="./User">Danh sách</a>
+            <button type="submit" class="btn btn-danger">Cập nhật</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/multiple-select/multiple-select.min.js"></script>
+    <link rel="stylesheet" href="~/lib/multiple-select/multiple-select.min.css" />
+    <script>
+          $('#selectrole').multipleSelect({
+                selectAll: false,
+                keepOpen: false,
+                isOpen: false
+            });
+    </script>
+
+
+    <partial name="_ValidationScriptsPartial" />
+}
+
