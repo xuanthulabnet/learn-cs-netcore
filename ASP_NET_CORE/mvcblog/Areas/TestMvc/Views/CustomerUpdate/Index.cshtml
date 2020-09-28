@@ -1,0 +1,50 @@
+@using mvcblog.Areas.TestMvc.Controllers
+@{
+    ViewData["Title"] = "Customer";
+    Layout = "_Layout";
+}
+
+@model CustomerUpdateController.CustomerInfo
+<div class="alert alert-primary">@ViewData["Message"]</div>
+
+@{
+    var customer = Model;
+    if (customer != null)
+    {
+        if (ViewContext.ModelState.IsValid) {
+            <h3>Thông tin đã gửi</h3>
+            <div class="card">
+                <div class="card-body">
+                    <p><strong>Tên: </strong> @customer.Customername</p>
+                    <p><strong>Email: </strong> @customer.Email</p>
+                    <p><strong>Năm sinh: </strong> @customer.YearOfBirth</p>
+                </div>
+            </div>
+        }
+
+    }
+}  
+
+<h2 class="display-4">Nhập thông tin</h2>
+<form method="post" class="m-2 p-3 bg-light">
+    <div asp-validation-summary="All" class="text-danger"></div>
+<div class="form-group">
+        <label asp-for="@Model.Customername"></label>
+        <input class="form-control" asp-for="@Model.Customername" />
+        <span asp-validation-for="@Model.Customername" class="text-danger"></span>  
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Email"></label>
+        <input class="form-control" asp-for="@Model.Email" />
+        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.YearOfBirth"></label>
+        <input class="form-control" asp-for="@Model.YearOfBirth" />
+        <span asp-validation-for="@Model.YearOfBirth" class="text-danger"></span>
+    </div> 
+    <div class="form-group">
+        <button class="btn btn-danger" asp-action="Index">Gửi thông tin</button>
+    </div>
+</form>
+
