@@ -123,6 +123,11 @@ namespace mvcblog {
             app.UseAuthorization (); // Phục hồi thông tinn về quyền của User
 
             app.UseEndpoints (endpoints => {
+
+                    endpoints.MapControllerRoute(
+                    name: "MyArea",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
                 endpoints.MapControllerRoute (
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
@@ -151,7 +156,7 @@ namespace mvcblog {
 
             app.Run (async (HttpContext context) => {
                 context.Response.StatusCode = StatusCodes.Status404NotFound;
-                await context.Response.WriteAsync ("Page not found!");
+                await context.Response.WriteAsync ("Page not found (xuanthulab)!");
             });
 
         }
