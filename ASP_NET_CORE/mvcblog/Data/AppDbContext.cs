@@ -3,7 +3,11 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using mvcblog.Models;
 
 namespace mvcblog.Data {
+
         public class AppDbContext : IdentityDbContext<AppUser> {
+
+        public DbSet<Category> Categories {set; get;}
+
 
         public AppDbContext (DbContextOptions<AppDbContext> options) : base (options) { }
 
@@ -17,6 +21,12 @@ namespace mvcblog.Data {
                     entityType.SetTableName (tableName.Substring (6));
                 }
             }
+
+            // Tạo Index cho cột Slug bảng Category
+            builder.Entity<Category>(entity => {
+                entity.HasIndex(p => p.Slug);
+            });
+
         }
 
     }

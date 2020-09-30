@@ -1,0 +1,30 @@
+@model dynamic
+@{
+    List<mvcblog.Models.Category> categories = Model.categories;
+    int level = Model.level;  
+    string prefix = String.Concat(Enumerable.Repeat("&nbsp;&nbsp;&nbsp;&nbsp;", level));
+
+}
+@if (categories.Count > 0)
+{
+     @foreach (var item in categories)
+     {
+          <tr>
+            <td>
+                @* @Html.DisplayFor(modelItem => item.Title) *@
+                @Html.Raw(@prefix) @item.Title
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Slug)
+            </td> 
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+          @if (item.CategoryChildren != null && item.CategoryChildren.Count > 0) {
+            @await Component.InvokeAsync("RowTreeCategory", new { categories = item.CategoryChildren.ToList(), level = level + 1})
+          }
+     }
+}
