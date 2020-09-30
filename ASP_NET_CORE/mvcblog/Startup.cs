@@ -105,6 +105,8 @@ namespace mvcblog {
 
             services.AddControllersWithViews ();
             services.AddRazorPages ();
+
+
         }
 
         public void Configure (IApplicationBuilder app, IWebHostEnvironment env) {
