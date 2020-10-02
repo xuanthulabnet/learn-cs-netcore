@@ -116,6 +116,10 @@ namespace mvcblog {
                 app.UseExceptionHandler ("/Home/Error");
                 app.UseHsts ();
             }
+            // app.UsePiranha(optionn => {
+            //     optionn.UseTinyMCE();
+            // });
+
             app.UseHttpsRedirection ();
             app.UseStaticFiles ();
 
