@@ -10,7 +10,7 @@
 <h4>Tạo danh mục Blog</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -43,3 +43,9 @@
     <a asp-action="Index">Quay lại danh sách</a>
 </div>
 
+
+
+@section Scripts
+{
+    @await Html.PartialAsync("_Summernote", new {height = 200, selector = "#Content"})
+}

@@ -6,6 +6,10 @@
     <title>@ViewData["Title"] - mvcblog</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    @RenderSection("head", required: false)
+    @{
+        @mvcblog.Events.RenderEvents.RenderHead(this);
+    }
 </head>
 <body>
     <header>

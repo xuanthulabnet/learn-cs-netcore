@@ -10,7 +10,7 @@
 <h4>Blog Category</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
@@ -24,9 +24,10 @@
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
+            <!--Sử dụng textarea nhập dữ liệu cho Content-->
             <div class="form-group">
                 <label asp-for="Content" class="control-label"></label>
-                <input asp-for="Content" class="form-control" />
+                <textarea asp-for="Content" class="form-control"></textarea>
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -45,3 +46,8 @@
     <a asp-action="Index">Quay lại danh sách</a>
 </div>
 
+
+@section Scripts
+{
+    @await Html.PartialAsync("_Summernote", new {height = 200, selector = "#Content"})
+}
