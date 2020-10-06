@@ -4,9 +4,11 @@ using mvcblog.Models;
 
 namespace mvcblog.Data {
 
-        public class AppDbContext : IdentityDbContext<AppUser> {
+    public class AppDbContext : IdentityDbContext<AppUser> {
 
         public DbSet<Category> Categories {set; get;}
+        public DbSet<Post> Posts {set; get;}
+        public DbSet<PostCategory> PostCategories {set; get;}
 
 
         public AppDbContext (DbContextOptions<AppDbContext> options) : base (options) { }
@@ -26,6 +28,15 @@ namespace mvcblog.Data {
             builder.Entity<Category>(entity => {
                 entity.HasIndex(p => p.Slug);
             });
+
+
+            // Tạo key của bảng là sự kết hợp PostID, CategoryID, qua đó
+            // tạo quan hệ many to many giữa Post và Category
+            builder.Entity<PostCategory>().HasKey(p => new {p.PostID, p.CategoryID});
+
+
+            // builder.Entity<PostCategory>().HasNoKey();
+
 
         }
 

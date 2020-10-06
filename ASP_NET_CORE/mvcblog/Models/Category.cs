@@ -40,5 +40,7 @@ namespace mvcblog.Models {
         [ForeignKey("ParentId")]
         public Category ParentCategory {set; get;}
 
+        public List<PostCategory>  PostCategories { get; set; }
+
     }
 }

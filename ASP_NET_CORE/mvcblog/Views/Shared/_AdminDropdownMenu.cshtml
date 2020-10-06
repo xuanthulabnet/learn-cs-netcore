@@ -16,6 +16,17 @@
 
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" asp-page="/Role/User" asp-area="Admin">Gán role cho User</a>
+
+            <a class="dropdown-item" 
+                asp-controller="Category"
+                asp-action="Index"
+                asp-area="Admin">Danh mục (Category)</a>
+            
+            <a class="dropdown-item" 
+                asp-controller="Post"
+                asp-action="Index"
+                asp-area="Admin">Các bài viết (Post)</a>
+
         </div>
     </li>
 }
