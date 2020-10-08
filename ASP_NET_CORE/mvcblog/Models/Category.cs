@@ -42,5 +42,58 @@ namespace mvcblog.Models {
 
         public List<PostCategory>  PostCategories { get; set; }
 
+        public List<Category> ListParents() 
+        {
+            List<Category> li = new List<Category>();
+            var parent = this.ParentCategory;
+            while (parent != null)
+            {
+                li.Add(parent);
+                parent = parent.ParentCategory;
+            }
+
+
+            li.Reverse();
+            return li;
+        }
+
+
+        public static Category Find(ICollection<Category> lis, int CategoryId) {
+            foreach (var c in lis)
+            {
+                if (c.Id == CategoryId) return c;
+                if (c.CategoryChildren != null) 
+                {
+                    var c_in_child = Find(c.CategoryChildren, CategoryId);
+                    
+                    if (c_in_child != null) 
+                        return c_in_child;
+                }
+            }
+            return null;
+        }
+
+
+        public List<int> ChildCategoryIDs(ICollection<Category> childcates = null, List<int> lists = null) {
+            if (lists == null)
+                lists = new List<int>();
+
+            
+
+            if (childcates == null)
+                childcates = CategoryChildren;
+
+            if (childcates == null)
+                return lists;
+
+            foreach (var item in childcates)
+            {
+                lists.Add(item.Id);
+                ChildCategoryIDs(item.CategoryChildren, lists);
+            }    
+
+            return lists;
+        }
+
     }
 }

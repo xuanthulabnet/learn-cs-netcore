@@ -2,23 +2,6 @@
     ViewData["Title"] = "Home Page";
 }
 <div class="text-center">
-    <h1 class="display-4">Welcome 2020</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome MyBlog 2020</h1>
 </div>
-
-<a asp-controller="LearnAsp" asp-action="Index" asp-route-id="123">Học  Asp</a>
-<a asp-route="routeabc" asp-route-id="1">AAA</a>
-
-@section Scripts
-{
-    <script src="@Url.Content("~/summernote/summernote-bs4.js")"></script>
-    <link href="@Url.Content("~/summernote/summernote-bs4.min.css")" rel="stylesheet">
-    <script>
-        $(document).ready(function() {
-  $('#abc').summernote();
-});
-
-    </script>
-   
-}
-<textarea id="abc"></textarea>
+<a class="display-4" asp-controller="ViewPost" asp-action="Index">các bài viết</a>

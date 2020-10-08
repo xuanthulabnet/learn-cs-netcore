@@ -1,0 +1,37 @@
+@using XTLASPNET
+@model CategorySidebar.CategorySidebarData
+@{
+    List<Category> categories = Model.categories;
+    int level = Model.level;
+}
+@if (categories.Count > 0)
+{
+    if (level == 0) {
+        @Html.Raw("<div class=\"categorysidebar\">")
+        <h3><a asp-controller="ViewPost" asp-action="Index" 
+            asp-route-slug="">Các chủ đề</a></h3>
+    }
+     <ul>
+        @foreach (var item in categories)
+        {
+            var cssClass = (item.Slug == Model.slugCategory) ? "active" : null;
+            <li><a asp-controller="ViewPost" asp-action="Index" asp-route-slug="@item.Slug" 
+                   class="@cssClass">@item.Title</a></li>
+            
+            @if (item.CategoryChildren?.Count > 0) {
+
+                @await Component.InvokeAsync(CategorySidebar.COMPONENTNAME, 
+                    new CategorySidebar.CategorySidebarData() {
+                        categories = item.CategoryChildren.ToList(),
+                        level = Model.level + 1,
+                        slugCategory = Model.slugCategory
+                    })
+
+            }
+        }
+     </ul>
+
+    if (level == 0) {
+        @Html.Raw("</div>")
+    }
+}

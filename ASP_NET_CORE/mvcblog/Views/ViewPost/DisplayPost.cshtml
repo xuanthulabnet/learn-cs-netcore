@@ -1,0 +1,40 @@
+@using XTLASPNET
+@model mvcblog.Models.Post
+@{
+    ViewData["Title"] = Model.Title;
+    List<Category> categories = ViewBag.categories;
+    Category category = Category.Find(categories,
+        Model.PostCategories.FirstOrDefault().CategoryID); 
+}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a asp-controller="ViewPost" 
+        asp-action="Index" asp-route-slug="">Blog</a></li>
+    @if (category != null) {
+        var lis = category.ListParents();
+        foreach (var li in lis)
+        {
+            <li class="breadcrumb-item"><a asp-controller="ViewPost" 
+                asp-action="Index" asp-route-slug="@li.Slug">@li.Title</a></li>
+        }
+    }
+  </ol>
+</nav>
+
+<div class="detailpost">
+    <h1>@Model.Title</h1>
+    <div class="sapo">@Model.Description</div>
+    @Html.Raw(Model.Content)
+</div>
+@section Sidebar {
+    @{
+        @await Component.InvokeAsync(CategorySidebar.COMPONENTNAME, 
+            new CategorySidebar.CategorySidebarData() {
+                level = 0,
+                categories = ViewBag.categories,
+                slugCategory = ViewBag.slugCategory
+            })
+    }
+}
