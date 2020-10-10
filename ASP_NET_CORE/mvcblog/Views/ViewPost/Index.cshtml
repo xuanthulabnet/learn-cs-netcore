@@ -1,0 +1,76 @@
+﻿@using XTLASPNET
+@{
+    ViewData["Title"] = "Các chuyên mục";
+    Category category = ViewBag.CurrentCategory;
+}
+<div class="index-page">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="ViewPost" 
+                asp-action="Index" asp-route-slug="">Blog</a></li>
+            @if (category != null) {
+                var lis = category.ListParents();
+                foreach (var li in lis)
+                {
+                    <li class="breadcrumb-item"><a asp-controller="ViewPost" 
+                        asp-action="Index" asp-route-slug="@li.Slug">@li.Title</a></li>
+                }
+            }
+        </ol>
+    </nav>
+
+
+    @if (category != null) {
+        <h2>@category.Title</h2>
+        ViewData["Title"] = category.Title;
+    }
+    @foreach (var item in Model)
+    {
+        <div class="media py-1">
+            <div class="media-body">
+                <h5 class="mt-0 mb-1">
+                    <a asp-action="DisplayPost" 
+                        asp-route-slug="@item.Slug">@item.Title</a>
+                </h5>
+                @item.Description
+                <div class="author-row">
+                    <strong>@item.Author.UserName</strong>
+                    <i>@item.DateUpdated.ToShortDateString()</i>
+                </div>
+            </div>
+            
+        </div>
+    }
+
+
+
+
+    @{
+        
+        Func<int?,string> generateUrl = (int? _pagenumber)  => {
+            if (_pagenumber == 1) _pagenumber = null;
+            return Url.Link("listpost", new {page = _pagenumber, slug = ViewBag.slugCategory});  
+        };
+
+        var datapaging = new {
+            currentPage = ViewBag.pageNumber,
+            countPages  = ViewBag.totalPages,
+            generateUrl =  generateUrl
+        };
+
+    }
+    <partial name="_Paging" model="@datapaging" />
+</div>
+
+@section Sidebar {
+    @{
+        @await Component.InvokeAsync(CategorySidebar.COMPONENTNAME, 
+            new CategorySidebar.CategorySidebarData() {
+                level = 0,
+                categories = ViewBag.categories,
+                slugCategory = ViewBag.slugCategory
+            })
+    }
+}
