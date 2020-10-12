@@ -30,6 +30,13 @@ namespace mvcblog {
 
         public void ConfigureServices (IServiceCollection services) {
 
+            services.AddDistributedMemoryCache();           // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
+            services.AddSession(cfg => {                    // Đăng ký dịch vụ Session
+                cfg.Cookie.Name = "xuanthulab";             // Đặt tên Session - tên này sử dụng ở Browser (Cookie)
+                cfg.IdleTimeout = new TimeSpan(0,30, 0);    // Thời gian tồn tại của Session
+            });
+
+
             // Đăng ký AppDbContext, sử dụng kết nối đến MS SQL Server
             services.AddDbContext<AppDbContext> (options => {
                 string connectstring = Configuration.GetConnectionString ("MyBlogContext");
@@ -122,6 +129,9 @@ namespace mvcblog {
 
             app.UseHttpsRedirection ();
             app.UseStaticFiles ();
+
+            app.UseSession();         // Đăng ký Middleware Session vào Pipeline
+
 
             app.UseRouting ();
 

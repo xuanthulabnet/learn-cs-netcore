@@ -10,6 +10,8 @@ namespace mvcblog.Data {
         public DbSet<Post> Posts {set; get;}
         public DbSet<PostCategory> PostCategories {set; get;}
 
+        public DbSet<Product> Products {set; get;}
+
 
         public AppDbContext (DbContextOptions<AppDbContext> options) : base (options) { }
 
@@ -35,7 +37,38 @@ namespace mvcblog.Data {
             builder.Entity<PostCategory>().HasKey(p => new {p.PostID, p.CategoryID});
 
 
-            // builder.Entity<PostCategory>().HasNoKey();
+            builder.Entity<Product>(
+                // Thiết lập kiểu Decimal cho Price
+                p => p.Property(p => p.Price).HasColumnType("DECIMAL")
+            );
+            // SeedData - chèn ngay bốn sản phẩm khi bảng Product được tạo
+            builder.Entity<Product>().HasData(
+                new Product() {
+                    ProductId = 1,
+                    Name = "Đá phong thuỷ tự nhiên",
+                    Description = "Số 1 cao 40cm rộng 20cm dày 20cm màu xanh lá cây đậm",
+                    Price = 1000000
+                },
+                new Product() {
+                    ProductId = 2,
+                    Name = "Đèn đá muối hình tròn",
+                    Description = "Trang trí trong nhà Chất liệu : • Đá muối",
+                    Price = 1500000
+                },
+                new Product() {
+                    ProductId = 3,
+                    Name = "Tranh sơn mài",
+                    Description = "Tranh sơn mài loại nhỏ 15x 15 giá 50.000",
+                    Price = 50000
+                } ,
+                new Product() {
+                    ProductId = 4,
+                    Name = "Tranh sơn dầu - Ngựa",
+                    Description = "Nguyên liệu thể hiện :    Sơn dầu",
+                    Price = 450000
+                }  
+
+            );
 
 
         }
