@@ -1,0 +1,54 @@
+{
+  "_from": "elfinder-material-theme@^2.1.10",
+  "_id": "elfinder-material-theme@2.1.10",
+  "_inBundle": false,
+  "_integrity": "sha512-WE5MPrXQbrSmowAwwU76B9O9g3yy/kI5wAY7FXcLE0dqo9dG2D9q5U4Co+rNReScKEpf9w8Tivd4tbRwwv6CJA==",
+  "_location": "/elfinder-material-theme",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "elfinder-material-theme@^2.1.10",
+    "name": "elfinder-material-theme",
+    "escapedName": "elfinder-material-theme",
+    "rawSpec": "^2.1.10",
+    "saveSpec": null,
+    "fetchSpec": "^2.1.10"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/elfinder-material-theme/-/elfinder-material-theme-2.1.10.tgz",
+  "_shasum": "36b58e45d5555525c452b36831c56bde161af120",
+  "_spec": "elfinder-material-theme@^2.1.10",
+  "_where": "/Users/xuanthulab/Desktop/learn-cs-netcore/ASP_NET_CORE/mvcblog",
+  "author": {
+    "name": "Róbert Kelčák {RobiNN}"
+  },
+  "bugs": {
+    "url": "https://github.com/RobiNN1/elFinder-Material-Theme/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Theme for elFinder",
+  "homepage": "https://github.com/RobiNN1/elFinder-Material-Theme#readme",
+  "keywords": [
+    "elFinder",
+    "Material",
+    "theme",
+    "material-theme",
+    "material-design"
+  ],
+  "license": "MIT",
+  "main": "Material/css/theme.css",
+  "name": "elfinder-material-theme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RobiNN1/elFinder-Material-Theme.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "2.1.10"
+}
