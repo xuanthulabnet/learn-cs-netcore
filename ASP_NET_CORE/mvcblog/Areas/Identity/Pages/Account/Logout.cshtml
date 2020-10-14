@@ -2,4 +2,13 @@
 @model LogoutModel
 @{
     ViewData["Title"] = "Log out";
+    Layout = "/Views/Shared/Admin/_LoginLayout.cshtml";
 }
+
+<div class="p-3">
+    <h2>Chắc chắn đăng xuất?</h2>
+    <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
+        <button id="logout" type="submit" class="btn btn-danger">Đăng xuất</button>
+        <a asp-controller="Home" asp-action="Index" asp-area="">Về trang chủ</a>
+    </form>
+</div>

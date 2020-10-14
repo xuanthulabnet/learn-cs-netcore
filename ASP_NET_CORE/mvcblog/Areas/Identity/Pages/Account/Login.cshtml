@@ -1,71 +1,76 @@
 @page "/login/"
 @model LoginModel
-
 @{
+    Layout = "/Views/Shared/Admin/_LoginLayout.cshtml";
     ViewData["Title"] = "ĐĂNG NHẬP";
 }
-
-<h1>@ViewData["Title"]</h1>
 <div class="row">
-    <div class="col-md-4">
-        <section>
-            <form id="account" method="post">
-                <h4>Điền thông tin để đăng nhập.</h4>
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Input.UserNameOrEmail"></label>
-                    <input asp-for="Input.UserNameOrEmail" class="form-control" />
-                    <span asp-validation-for="Input.UserNameOrEmail" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control" />
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label asp-for="Input.RememberMe">
-                            <input asp-for="Input.RememberMe" />
-                            @Html.DisplayNameFor(m => m.Input.RememberMe)
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Đăng nhập</button>
-                </div>
-                <div class="form-group">
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Bạn quyên mật khẩu?</a>
-                    </p>
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Chưa có tài khoản, đăng ký mới</a>
-                    </p>
-                </div>
-            </form>
-        </section>
-    </div>
+    <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+    <div class="col-lg-6">
+        <div class="p-5">
+        <div class="text-center">
+        <h1 class="h4 text-gray-900 mb-4">@ViewData["Title"]</h1>
+        </div>
+        <form class="user" id="account" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <input asp-for="Input.UserNameOrEmail" class="form-control form-control-user" 
+                aria-describedby="emailHelp" placeholder="Nhập user hoặc email"/>
+            <span asp-validation-for="Input.UserNameOrEmail" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input asp-for="Input.Password" class="form-control form-control-user" placeholder="Nhập mật khẩu" />
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+    
+        <div class="form-group">
+            <div class="custom-control custom-checkbox small">
+                <input asp-for="Input.RememberMe" class="custom-control-input" />
+                <label class="custom-control-label" asp-for="Input.RememberMe"></label>
+            </div>
+        </div>
 
-    <div class="col-md-6 col-md-offset-2">
+        <button type="submit" class="btn btn-primary btn-user btn-block">Đăng nhập</button>
+        
+
         @if ((Model.ExternalLogins?.Count ?? 0) != 0) {
-            <section>
-                <h4>Sử dụng dịch vụ</h4>
-                <hr />
-                <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                            <div>
-                                <p>
-                                    @foreach (var provider in Model.ExternalLogins)
-                                    {
-                                        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                    }
-                                </p>
-                            </div>
-                </form>
-            </section>
-        }
+            <hr>
+            <form id="external-account" asp-page="./ExternalLogin" 
+                asp-route-returnUrl="@Model.ReturnUrl" method="post">        
+                @foreach (var provider in Model.ExternalLogins)
+                { 
+                    string classiconprovider = "";
+                    string classprovider = "";
+                    if (provider.DisplayName == "Google") {
+                        classprovider = "btn-google";
+                        classiconprovider = "fab fa-google fa-fw";
+                    }
+                    else if (provider.DisplayName == "Facebook") {
+                        classprovider = "btn-facebook";
+                        classiconprovider = "fab fa-facebook-f fa-fw";
+                    }
+                    
+
+                    <button type="submit" class="btn @classprovider btn-user btn-block" 
+                        name="provider" value="@provider.Name" 
+                        title="Log in using your @provider.DisplayName account">
+                        <i class="@classiconprovider"></i>
+                        Đăng nhập bằng @provider.DisplayName
+                    </button>
+                } 
+            </form>
+            
+        } 
+        </form>
+        <div class="text-center">
+            <a class="small" id="forgot-password" asp-page="./ForgotPassword">Bạn quyên mật khẩu?</a>
+        </div>
+        <div class="text-center">
+            <a class="small" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Chưa có tài khoản, đăng ký mới</a>
+        </div>
     </div>
 
-
+    </div>
 </div>
 
 @section Scripts {

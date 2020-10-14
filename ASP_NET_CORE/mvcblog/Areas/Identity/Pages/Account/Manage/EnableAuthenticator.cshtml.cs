@@ -11,9 +11,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Album.Areas.Identity.Pages.Account.Manage
 {
+    [Authorize]
     public class EnableAuthenticatorModel : PageModel
     {
         private readonly UserManager<AppUser> _userManager;

@@ -2,7 +2,12 @@
 @model ConfirmEmailModel
 @{
     ViewData["Title"] = "Xác thực email";
+    Layout = "/Views/Shared/Admin/_LoginLayout.cshtml";
+
 }
 
-<h1>@ViewData["Title"]</h1>
-<p>@Model.StatusMessage</p>
+
+<div class="p-4">
+    <h1>@ViewData["Title"]</h1>
+    <p>@Model.StatusMessage</p>
+</div>

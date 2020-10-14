@@ -7,9 +7,12 @@ using mvcblog.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Album.Areas.Identity.Pages.Account.Manage
 {
+
+    [Authorize]
     public class SetPasswordModel : PageModel
     {
         private readonly UserManager<AppUser> _userManager;

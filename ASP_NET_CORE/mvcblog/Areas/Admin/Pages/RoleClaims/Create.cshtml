@@ -2,12 +2,13 @@
 @model Album.Pages.Blog.CreateModel
 
 @{
-    ViewData["Title"] = "Tạo Claim";
+    ViewData["Title"] = @Model.role.Name;
 }
 
-<h1>Tạo Claim cho role @Model.role.Name</h1>
+<h1 class="h3 mb-1 text-gray-800">@ViewData["Title"]</h1>
 
-<h4>Biện tập Claim</h4>
+<h4>Tạo Claim cho role @Model.role.Name</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">

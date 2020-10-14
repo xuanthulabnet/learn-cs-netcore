@@ -1,60 +1,81 @@
 @page "/register/"
 @model RegisterModel
 @{
-    ViewData["Title"] = "ĐĂNG KÝ TÀI KHOẢN";
+    ViewData["Title"] = "Đăng ký tài khoản!";
+    Layout = "/Views/Shared/Admin/_LoginLayout.cshtml";
 }
 
-<h1>@ViewData["Title"]</h1>
-
 <div class="row">
-    <div class="col-md-6">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Điền thông tin để tạo tài khoản mới.</h4>
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.UserName"></label>
-                <input asp-for="Input.UserName" class="form-control" />
-                <span asp-validation-for="Input.UserName" class="text-danger"></span>
+    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+    <div class="col-lg-7">
+        <div class="p-5">
+            <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">@ViewData["Title"]</h1>
             </div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" class="form-control" />
+            <form class="user" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <input asp-for="Input.UserName" class="form-control form-control-user" placeholder="Tên tài khoản">
+                    <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Input.Email" class="form-control form-control-user" placeholder="Nhập email">
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>                
+            <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input asp-for="Input.Password" class="form-control form-control-user" placeholder="Nhập Password"/>
+                </div>
+                <div class="col-sm-6">
+                    <input asp-for="Input.ConfirmPassword" class="form-control form-control-user" placeholder="Nhập lại Password"/>
+                </div>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.ConfirmPassword"></label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Đăng ký</button>
-        </form>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        @if ((Model.ExternalLogins?.Count ?? 0) != 0) {
-            <section>
-                <h4>Sử dụng dịch vụ</h4>
-                <hr />
-                <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                            <div>
-                                <p>
-                                    @foreach (var provider in Model.ExternalLogins)
-                                    {
-                                        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                    }
-                                </p>
-                            </div>
+            
+            <button type="submit" class="btn btn-primary btn-user btn-block">Đăng ký</button>
+            
+            @if ((Model.ExternalLogins?.Count ?? 0) != 0) {
+                <hr>
+                <form id="external-account" asp-page="./ExternalLogin" 
+                    asp-route-returnUrl="@Model.ReturnUrl" method="post">        
+                    @foreach (var provider in Model.ExternalLogins)
+                    { 
+                        string classiconprovider = "";
+                        string classprovider = "";
+                        if (provider.DisplayName == "Google") {
+                            classprovider = "btn-google";
+                            classiconprovider = "fab fa-google fa-fw";
+                        }
+                        else if (provider.DisplayName == "Facebook") {
+                            classprovider = "btn-facebook";
+                            classiconprovider = "fab fa-facebook-f fa-fw";
+                        }
+                        
+
+                        <button type="submit" class="btn @classprovider btn-user btn-block" 
+                            name="provider" value="@provider.Name" 
+                            title="Log in using your @provider.DisplayName account">
+                            <i class="@classiconprovider"></i>
+                            Đăng ký bằng @provider.DisplayName
+                        </button>
+                    } 
                 </form>
-            </section>
-        }
+                
+            } 
+            </form>
+            <hr>
+            <div class="text-center">
+                <a class="small" id="forgot-password" asp-page="./ForgotPassword">Bạn quyên mật khẩu?</a>
+            </div>
+            <div class="text-center">
+                <a class="small" asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Đã có tài khoản, hãy đăng nhập</a>
+            </div>
+        </div>
     </div>
 </div>
 
+  
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
