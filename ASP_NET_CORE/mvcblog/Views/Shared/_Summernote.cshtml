@@ -3,26 +3,101 @@
     int height = Model.height ?? 200;
     string selector = Model.selector;
 }
-  
+
+<link rel="stylesheet" href="~/lib/jqueryui/themes/base/theme.css" />
+<link rel="stylesheet" href="~/lib/jqueryui/themes/base/jquery-ui.css" />
+<link rel="stylesheet" href="~/lib/elfinder/css/elfinder.full.css" />
+<link rel="stylesheet" href="~/lib/elfinder/css/theme.min.css" />
+<link rel="stylesheet" href="~/css/elfinder-material-theme/Material/css/theme-gray.css" />
+<script src="~/lib/jqueryui/jquery-ui.min.js"></script>
+<script src="~/lib/elfinder/js/elfinder.min.js"></script>
+
+
 <script src="@Url.Content("~/summernote/summernote-bs4.js")"></script>
 <link href="@Url.Content("~/summernote/summernote-bs4.min.css")" rel="stylesheet">
 
+
+
 <script>
-    $(document).ready(function() {
+    (function (factory) {
+        if (typeof define === 'function' && define.amd) {
+            define(['jquery'], factory);
+        } 
+        else if (typeof module === 'object' && module.exports) {
+            module.exports = factory(require('jquery'));
+        } else {
+            factory(window.jQuery);
+        }
+    }(function ($) {
+      $.extend($.summernote.plugins, {
+            // Tạo plugin tên elfinder  
+            'elfinder': function (context) {
+                var self = this;
+                // ui has renders to build ui elements.
+                var ui = $.summernote.ui;
+                // Tạo nút bấm
+                context.memo('button.elfinder', function () {
+                    var button = ui.button({
+                        contents: '<i class="note-icon-picture"/> elFinder',
+                        tooltip: 'Quản lý file',
+                        click: function () {
+                            // Bấm vào nút bấm gọi hàm elfinderDialog   
+                            elfinderDialog(context); 
+                        }
+                    });
+                    // create jQuery object from button instance.
+                    var $elfinder = button.render();
+                    return $elfinder;
+                });
+                // This methods will be called when editor is destroyed by $('..').summernote('destroy');
+                // You should remove elements on `initialize`.
+                this.destroy = function () {
+                    this.$panel.remove();
+                    this.$panel = null;
+                };
+            }
+      
+        });
+    }));
+
+function elfinderDialog(editor) {
+  	    var fm = $('<div/>').dialogelfinder({
+  		url : '/el-finder-file-system/connector', // change with the url of your connector
+        baseUrl: "/lib/elfinder/",  
+  		lang : 'vi',
+  		width : 840,
+  		height: 450,
+  		destroyOnClose : true,
+  		getFileCallback : function(files, fm) {
+  			console.log(files);
+            editor.invoke('editor.insertImage', files.url);
+  		},
+  		commandsOptions : {
+  			getfile : {
+  			    oncomplete : 'close',
+  			    folders : false
+  			}
+  		}
+  	}).dialogelfinder('instance');
+}
+
+
+$(document).ready(function() {
         $('@selector').summernote({
             height: @height,
             toolbar: [
                 // [groupName, [list of button]]
-         ['style', ['style']],
-  ['font', ['bold', 'underline', 'clear']],
-  ['fontname', ['fontname']],
-  ['color', ['color']],
-  ['para', ['ul', 'ol', 'paragraph']],
-  ['table', ['table']],
-  ['insert', ['link', 'picture', 'video']],
-  ['view', ['fullscreen', 'codeview', 'help']],
-
-                ]
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video', 'elfinder']],
+                    ['view', ['fullscreen', 'codeview', 'help']],
+                ],
         });
     });
+
 </script>
+

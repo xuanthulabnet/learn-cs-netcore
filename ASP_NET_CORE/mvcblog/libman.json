@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "jquery-validate@1.19.2",
+      "destination": "wwwroot/lib/jquery-validate"
+    },
+    {
+      "library": "jquery-validation-unobtrusive@3.2.11",
+      "destination": "libman install jqueryui"
+    },
+    {
+      "library": "jqueryui@1.12.1",
+      "destination": "wwwroot/lib/jqueryui"
+    },
+    {
+      "library": "elfinder@2.1.57",
+      "destination": "wwwroot/lib/elfinder"
+    },
+    {
+      "library": "font-awesome@5.15.1",
+      "destination": "wwwroot/lib/font-awesome"
+    }
+  ]
+}

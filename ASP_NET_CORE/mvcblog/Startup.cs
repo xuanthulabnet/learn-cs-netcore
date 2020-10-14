@@ -117,6 +117,7 @@ namespace mvcblog {
         }
 
         public void Configure (IApplicationBuilder app, IWebHostEnvironment env) {
+            Console.WriteLine(env.WebRootPath);
             if (env.IsDevelopment ()) {
                 app.UseDeveloperExceptionPage ();
             } else {
