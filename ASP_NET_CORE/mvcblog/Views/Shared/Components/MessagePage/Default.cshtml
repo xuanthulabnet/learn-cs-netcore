@@ -1,10 +1,10 @@
 @model XTLASPNET.MessagePage.Message
 @{
-    Layout = "_Layout";
+    Layout = "/Views/Shared/Admin/_LoginLayout.cshtml";
     ViewData["Title"] = @Model.title;
 }
-<div class="card m-4">
-   <div class="card-header bg-danger text-light">
+<div class="card o-hidden border-0 shadow-lg">
+   <div class="card-header bg-dark text-light">
        <h4>@Model.title</h3>
    </div>
    <div class="card-body">

@@ -2,9 +2,13 @@
 @model RegisterConfirmationModel
 @{
     ViewData["Title"] = "Xác nhận đăng ký";
+    Layout = "/Views/Shared/Admin/_LoginLayout.cshtml";
+
 }
 
-<h1>@ViewData["Title"]</h1>
-<p>Một email đã gửi đến cho bạn, bạn cần mở email làm theo hướng dẫn trong email sau đó 
-    <a href="@Model.UrlContinue">Bấm vào đây để tiếp tục</a>
-</p>
+<div class="p-4">
+    <h1>@ViewData["Title"]</h1>
+    <p>Một email đã gửi đến cho bạn, bạn cần mở email làm theo hướng dẫn trong email sau đó 
+        <a href="@Model.UrlContinue">Bấm vào đây để tiếp tục</a>
+    </p>
+</div>

@@ -8,7 +8,7 @@
 <partial name="_StatusMessage" for="StatusMessage" />
 @if (Model.CurrentLogins?.Count > 0)
 {
-    <h4>Dịch vụ đã đăng ký</h4>
+<h1 class="h3 mb-1 text-gray-800">@ViewData["Title"]</h1>
     <table class="table">
         <tbody>
             @foreach (var login in Model.CurrentLogins)
@@ -38,7 +38,7 @@
 }
 @if (Model.OtherLogins?.Count > 0)
 {
-    <h4>Thêm liên kết với dịch vụ ngoài.</h4>
+<h1 class="h3 mb-1 text-gray-800">@ViewData["Title"]</h1>
     <hr />
     <form id="link-login-form" asp-page-handler="LinkLogin" method="post" class="form-horizontal">
         <div id="socialLoginList">

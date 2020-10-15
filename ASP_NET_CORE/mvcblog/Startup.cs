@@ -109,6 +109,27 @@ namespace mvcblog {
                 
             });
 
+            services.AddAuthentication()
+                    .AddGoogle(googleOptions =>
+                    {
+                        // Đọc thông tin Authentication:Google từ appsettings.json
+                        IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
+
+                        // Thiết lập ClientID và ClientSecret để truy cập API google
+                        googleOptions.ClientId = googleAuthNSection["ClientId"];
+                        googleOptions.ClientSecret = googleAuthNSection["ClientSecret"];
+
+                    })
+                    .AddFacebook(facebookOptions => {
+                        // Đọc cấu hình
+                        IConfigurationSection facebookAuthNSection = Configuration.GetSection("Authentication:Facebook");
+                        facebookOptions.AppId = facebookAuthNSection["AppId"];
+                        facebookOptions.AppSecret = facebookAuthNSection["AppSecret"];
+                        // Thiết lập đường dẫn Facebook chuyển hướng đến
+                        facebookOptions.CallbackPath = "/dang-nhap-tu-facebook";
+                    });
+
+
 
             services.AddControllersWithViews ();
             services.AddRazorPages ();
