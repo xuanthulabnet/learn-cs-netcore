@@ -44,7 +44,7 @@ public static class HtmlHelper
           foreach (dynamic menu in menus) {
               string _class = "nav-item";
               // Active khi request.PathBase giống url của menu
-              if (request.PathBase  == menu.url)  _class += " active"; 
+              if (request.Path  == menu.url)  _class += " active"; 
               menubuilder.Append($@"
                                 <li class=""{_class}"">
                                     <a class=""nav-link"" href=""{menu.url}"">{menu.label}</a>
