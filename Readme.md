@@ -26,7 +26,11 @@ Nó phục hồi một CSDL mẫu có tên ```xtlab```, cấu trúc và dữ li�
 
 Có thể dùng công cụ Azure Data Studio để kết nối thử theo hướng dẫn tại: https://xuanthulab.net/cai-dat-ms-sql-server-linux-voi-docker.html#connect
 
-# Cập nhật NET CORE 3.X
+# Cập nhật NET CORE 3.X hoặc .NET 6.0
+
+Đọc về Top-level statement với .NET 6: https://xuanthulab.net/top-level-statement-trong-lap-trinh-c-net-6.html
+
+
 Trong Repo có các ví dụ chạy trên NET CORE 2.X nếu muốn chuyển sang .NET CORE 3.X
 thì mở file ```.csproj``` và thay 
 ```
@@ -35,6 +39,14 @@ thì mở file ```.csproj``` và thay
 Bằng 
 ```
 <TargetFramework>netcoreapp3.1</TargetFramework>
+```
+Hoặc
+```
+<TargetFramework>net5.0</TargetFramework>
+```
+Hoặc
+```
+<TargetFramework>net6.0</TargetFramework>
 ```
 Sau đó có thể phải kiểm tra từng Package trong mục ```ItemGroup``` cần cập nhật bản mới, tìm bản mới tại
 https://www.nuget.org/packages/
